@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+}
+
+.thumbUp {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.thumbDown {
+  margin-left: 15px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.counter {
+  display: flex;
+  padding: 0px 10px 0 10px;
+  position: relative;
+  top: -5px;
+  color: var(--Gray-2, #4f4f4f);
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 112.5% */
+}
