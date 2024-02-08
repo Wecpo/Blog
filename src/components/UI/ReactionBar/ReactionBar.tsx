@@ -1,26 +1,103 @@
-import { useAppDispatch, useAppSelector } from "../../../hook";
-// import { addDislike, addLike } from "../../store/reactionSlice";
+import { useAppDispatch } from "../../../hook";
 import styles from "./ReactionBar.module.scss";
+import ThumpUp from "../../../assets/svgs/thumbup.svg?react";
+import ThumpDown from "../../../assets/svgs/thumbdown.svg?react";
+import {
+  addDislike,
+  addLike,
+  removeDislike,
+  removeLike,
+} from "../../../store/postSlice";
+import { FC } from "react";
 
-const ReactionBar = () => {
-  const { reaction } = useAppSelector((state) => state.reactions);
-  // const dispatch = useAppDispatch();
+type Reactions = {
+  likes: {
+    count: number;
+    isActive: boolean;
+  };
+  dislikes: {
+    count: number;
+    isActive: boolean;
+  };
+};
+
+type ReactionBarProps = {
+  post: {
+    body: string;
+    id: number;
+    title: string;
+    userId: number;
+    reactions: Reactions;
+  };
+};
+
+const ReactionBar: FC<ReactionBarProps> = ({ post }) => {
+  const dispatch = useAppDispatch();
+  const { likes, dislikes } = post.reactions;
+
+  const toggleLike = () => {
+    if (likes.isActive) {
+      dispatch(removeLike(post.id));
+    }
+
+    if (!likes.isActive) {
+      dispatch(addLike(post.id));
+    }
+
+    if (dislikes.isActive) {
+      dispatch(removeDislike(post.id));
+    }
+  };
+
+  const toggleDislike = () => {
+    if (dislikes.isActive) {
+      dispatch(removeDislike(post.id));
+    }
+
+    if (!dislikes.isActive) {
+      dispatch(addDislike(post.id));
+    }
+
+    if (likes.isActive) {
+      dispatch(removeLike(post.id));
+    }
+  };
+
+  const toggleReaction = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const target = event.target as HTMLTextAreaElement;
+
+    const reactionType = target.className.includes(`dislikes`)
+      ? "dislike"
+      : "like";
+
+    if (reactionType === "like") {
+      toggleLike();
+    }
+
+    if (reactionType === "dislike") {
+      toggleDislike();
+    }
+  };
 
   return (
     <>
       <div className={styles.container}>
-        <object className={styles.thumbUp} type="image/svg" data="thumbup.svg">
-          <img className={styles.thumbUp} src="thumbup.svg" alt="Палец вверх" />
-        </object>
-        <p className={styles.counter}>{reaction.likes}</p>
-        <object
-          className={styles.thumbDown}
-          type="image/svg"
-          data="thumdown.svg"
+        <div
+          className={likes.isActive ? styles.likesOn : styles.likes}
+          onClick={(event) => toggleReaction(event)}
         >
-          <img src="thumbdown.svg" alt="Палец вниз" />
-        </object>
-        <p className={styles.counter}>{reaction.dislikes}</p>
+          <ThumpUp />
+        </div>
+        <p className={styles.counter}>{likes.count}</p>
+        <div
+          className={dislikes.isActive ? styles.dislikesOn : styles.dislikes}
+          onClick={(event) => toggleReaction(event)}
+        >
+          <ThumpDown />
+        </div>
+        <p className={styles.counter}>{dislikes.count}</p>
       </div>
     </>
   );

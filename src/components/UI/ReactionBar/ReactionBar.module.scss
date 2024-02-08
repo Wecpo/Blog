@@ -2,16 +2,49 @@
   display: flex;
 }
 
-.thumbUp {
+.likes {
   &:hover {
     cursor: pointer;
+    stroke: #219653;
+  }
+  > svg {
+    pointer-events: none;
   }
 }
 
-.thumbDown {
-  margin-left: 15px;
+.likesOn {
+  * {
+    fill: #219653;
+  }
   &:hover {
     cursor: pointer;
+    stroke: #219653;
+  }
+  > svg {
+    pointer-events: none;
+  }
+}
+
+.dislikes {
+  &:hover {
+    cursor: pointer;
+    stroke: #eb5757;
+  }
+  > svg {
+    pointer-events: none;
+  }
+}
+
+.dislikesOn {
+  * {
+    fill: #eb5757;
+  }
+  &:hover {
+    cursor: pointer;
+    stroke: #eb5757;
+  }
+  > svg {
+    pointer-events: none;
   }
 }
 
