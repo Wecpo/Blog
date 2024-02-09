@@ -5,9 +5,10 @@ import styles from "./PostPage.module.scss";
 import ReactionBar from "../../components/UI/ReactionBar/ReactionBar";
 import LeftArrow from "../../assets/svgs/leftArrow.svg?react";
 import { FC } from "react";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 type Params = {
-  postId?: string;
+  postId: string;
 };
 
 const PostPage: FC = () => {
@@ -24,6 +25,12 @@ const PostPage: FC = () => {
   //     .then(response => response.json())
   //     .then(json => console.log(json))
 
+  if (postId) {
+    if (+postId > posts.length) {
+      return <ErrorPage />;
+    }
+  }
+
   return post ? (
     <>
       <div className={styles.container}>
@@ -36,7 +43,6 @@ const PostPage: FC = () => {
             <ReactionBar post={post} />
           </div>
         </div>
-
         <div className={styles.content}>
           <h1 className={styles.title}>{post.title}</h1>
           <img src="/Image.jpg" alt="Здесь должно быть изображение поста" />
