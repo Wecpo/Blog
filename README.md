@@ -1,6 +1,6 @@
 Тестовое задание. Блог со статьями, все посты на главной странице, поиск по полному названию поста, и страница каждого поста по отдельности.
 
-React, TS, redux, react-router.
+TypeScript, React, Redux, React-router.
 
 yarn </br>
 yarn dev
